@@ -22,7 +22,6 @@ struct ScanTagsView: View {
 
   var body: some View {
     List {
-      
       if let lastError = lastError {
         Section {
           HStack(alignment: .top, spacing: 10) {
@@ -33,7 +32,7 @@ struct ScanTagsView: View {
           }
         }
       }
-      
+
       Section {
         if scannedTags.isEmpty {
           Text("No Tags Scanned Yet").foregroundColor(.secondary)
