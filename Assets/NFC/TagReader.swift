@@ -9,12 +9,13 @@
 import CoreNFC
 import Foundation
 import os.log
+import UIKit
 
 func generateTagIDURL(_ tagID: String) -> NFCNDEFPayload {
-  return NFCNDEFPayload.wellKnownTypeURIPayload(string: String(format: "https://%@/%@", "a.twopats.live", tagID))!
+  NFCNDEFPayload.wellKnownTypeURIPayload(string: String(format: "https://%@/%@", "a.twopats.live", tagID))!
 }
 
-struct StuffTagReader {
+struct AssetTags {
   private func invalidateMessage(forError error: Error) -> String {
     if let error = error as? TagErrors {
       return error.localizedDescription
@@ -38,24 +39,12 @@ struct StuffTagReader {
     return tagID
   }
 
-  private func getTagID(_ record: NFCNDEFPayload) throws -> (String, Bool) {
-    if record.typeNameFormat == NFCTypeNameFormat.empty {
-      let _tagID = UUID().uuidString
+  func setupOneTag() async throws -> String {
+    os_log("Verify one tag....")
 
-      return (_tagID, true)
-    }
+    let (session, tag) = try await AsyncNFCNDEFReaderSession().begin(prompt: "Hold your \(UIDevice.current.localizedModel) near a new tag")
+    let tagID: String
 
-    guard let uri = record.wellKnownTypeURIPayload() else {
-      print("* Something else: identifier: \(record.identifier); typeNameFormat: \(record.typeNameFormat.rawValue); type: \(record.type); payload: \(record.payload)")
-      throw TagErrors.TagNotEmpty
-    }
-
-    let tagID = uri.pathComponents[1]
-
-    return (tagID, false)
-  }
-
-  private func processTag(session: NFCNDEFReaderSession, tag: NFCNDEFTag) async throws -> String {
     do {
       try await session.connect(to: tag)
       print("Connected to tag! \(tag)")
@@ -68,64 +57,7 @@ struct StuffTagReader {
       case .readOnly:
         throw TagErrors.TagNotWritable
       default:
-        print("Tag has capacity \(capacity)")
-      }
-
-      let message = try await tag.readNDEFWithDefault()
-      print("\(message.records.count) records:")
-
-      let record = message.records.first ?? NFCNDEFPayload.emptyPayload()
-
-      let (tagId, needsWrite) = try getTagID(record)
-      if needsWrite {
-        session.alertMessage = "Writing tag ID..."
-        try await tag.writeNDEF(NFCNDEFMessage(records: [generateTagIDURL(tagId)]))
-      }
-
-      await MainActor.run {
-        session.alertMessage = "Found tag"
-      }
-
-      print("* got tagId \(tagId), invalidating...")
-      return tagId
-
-    } catch {
-      print("* catch error \(error), invalidating...")
-      session.invalidate(errorMessage: invalidateMessage(forError: error))
-      throw error
-    }
-  }
-
-  func scanOneTag() async throws -> String {
-    print("** startNDEFScan5: OneNFCTag.get()...")
-
-    let (session, tag) = try await NFCNDEFReaderSessionOneTag().begin()
-
-    let tagID = try await processTag(session: session, tag: tag)
-
-    session.invalidate()
-
-    return tagID
-  }
-
-  func verifyOneTag() async throws -> String {
-    os_log("Verify one tag....")
-
-    let (session, tag) = try await NFCNDEFReaderSessionOneTag().begin()
-
-    let tagID: String
-
-    do {
-      try await session.connect(to: tag)
-      print("Connected to tag! \(tag)")
-
-      let (ndefStatus, capacity) = try await tag.queryNDEFStatus()
-
-      switch ndefStatus {
-      case .notSupported:
-        throw TagErrors.TagNotSupported
-      default:
-        print("Tag has capacity \(capacity)")
+        os_log("Tag has capacity \(capacity)")
       }
 
       let message: NFCNDEFMessage
@@ -133,19 +65,28 @@ struct StuffTagReader {
       do {
         message = try await tag.readNDEF()
       } catch let error as NFCReaderError {
-        if error.code == NFCReaderError.Code.ndefReaderSessionErrorZeroLengthMessage {
-          throw TagErrors.TagEmpty
-        } else {
+        if error.code != NFCReaderError.Code.ndefReaderSessionErrorZeroLengthMessage {
           throw error
+        }
+        message = NFCNDEFMessage(records: [])
+      }
+
+      if let record = message.records.first {
+        do {
+          let _ = try getTagIDFrom(record)
+
+          throw TagErrors.TagAlreadySetup
+        } catch let error as TagErrors {
+          if error != .TagEmpty {
+            throw error
+          }
         }
       }
 
-      guard let record = message.records.first else {
-        os_log("Tag has NDEF content, but has an empty records arrays")
-        throw TagErrors.TagEmpty
-      }
+      tagID = UUID().uuidString
 
-      tagID = try getTagIDFrom(record)
+      session.alertMessage = "Writing tag ID..."
+      try await tag.writeNDEF(NFCNDEFMessage(records: [generateTagIDURL(tagID)]))
 
     } catch {
       session.invalidate(errorMessage: invalidateMessage(forError: error))
@@ -155,5 +96,84 @@ struct StuffTagReader {
     session.invalidate()
 
     return tagID
+  }
+
+  private func getTagIDFromTag(_ tag: NFCNDEFTag) async throws -> String {
+    let (ndefStatus, capacity) = try await tag.queryNDEFStatus()
+
+    if ndefStatus == .notSupported {
+      throw TagErrors.TagNotSupported
+    }
+
+    os_log(OSLogType.debug, "Tag has capacity \(capacity)")
+
+    let message: NFCNDEFMessage
+
+    do {
+      message = try await tag.readNDEF()
+    } catch let error as NFCReaderError {
+      if error.code == NFCReaderError.Code.ndefReaderSessionErrorZeroLengthMessage {
+        throw TagErrors.TagEmpty
+      }
+      throw error
+    }
+
+    guard let record = message.records.first else {
+      os_log("Tag has NDEF content, but has an empty records arrays")
+      throw TagErrors.TagEmpty
+    }
+
+    return try getTagIDFrom(record)
+  }
+
+  func verifyOneTag() async throws -> String {
+    os_log("Verify one tag....")
+
+    let (session, tag) = try await AsyncNFCNDEFReaderSession().begin()
+
+    let tagID: String
+
+    do {
+      try await session.connect(to: tag)
+      os_log(OSLogType.info, "Connected to tag! \(tag.description)")
+
+      tagID = try await getTagIDFromTag(tag)
+
+    } catch {
+      session.invalidate(errorMessage: invalidateMessage(forError: error))
+      throw error
+    }
+
+    session.invalidate()
+
+    return tagID
+  }
+
+  @discardableResult func verifyOneTagIs(tagID expectedTagID: String) async throws -> Bool {
+    os_log("Verify one tag....")
+
+    let (session, tag) = try await AsyncNFCNDEFReaderSession().begin()
+
+    let readTagID: String
+
+    do {
+      try await session.connect(to: tag)
+      os_log(OSLogType.info, "Connected to tag! \(tag.description)")
+
+      readTagID = try await getTagIDFromTag(tag)
+
+    } catch {
+      session.invalidate(errorMessage: invalidateMessage(forError: error))
+      throw error
+    }
+
+    if expectedTagID != readTagID {
+      session.invalidate(errorMessage: "Not the expected tag")
+    } else {
+      session.alertMessage = "Excellent, that is the right tag!"
+      session.invalidate()
+    }
+
+    return expectedTagID == readTagID
   }
 }

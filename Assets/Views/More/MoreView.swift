@@ -18,7 +18,9 @@ struct MoreView: View {
             NavigationLink("Scan Tag") {
               ScanTagsView()
             }
-            Text("Setup Tags")
+            NavigationLink("Setup Tags") {
+              SetupTagsView()
+            }
           } else {
             Text("NFC not available")
           }

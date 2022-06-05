@@ -33,7 +33,7 @@ class ContainerViewModel: ObservableObject {
     do {
       scanning = false
 
-      let tagID = try await StuffTagReader().scanOneTag()
+      let tagID = try await AssetTags().verifyOneTag()
 
       self.tagID = tagID
       lastScanError = nil
@@ -50,6 +50,14 @@ class ContainerViewModel: ObservableObject {
     tagID = nil
 
     save()
+  }
+
+  func verifyTag() async throws {
+    guard let tagID = tagID else {
+      os_log("ContainerViewModel.verifyTag() called when tagID is nil, this is not valid.")
+      return
+    }
+    try await AssetTags().verifyOneTagIs(tagID: tagID)
   }
 
   func save() {

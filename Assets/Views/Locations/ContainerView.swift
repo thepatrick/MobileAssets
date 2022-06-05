@@ -28,11 +28,14 @@ struct ContainerView: View {
       }
       if let tagID = container.tagID {
         Section("Tag \(tagID)") {
-          Button {} label: {
+          Button {
+            Task { try? await container.verifyTag() }
+          } label: {
             HStack(alignment: .center, spacing: 0) {
               VStack(alignment: .leading) {
                 Text("Check").font(.headline)
-                Text("Last seen \(Date.now.formatted())").font(.footnote).foregroundColor(.red) // .foregroundColor(.secondary)
+                // TODO: Make this work
+//                Text("Last seen \(Date.now.formatted())").font(.footnote).foregroundColor(.red) // .foregroundColor(.secondary)
               }
 
               Spacer()

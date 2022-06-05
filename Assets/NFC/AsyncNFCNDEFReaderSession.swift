@@ -8,8 +8,9 @@
 
 import CoreNFC
 import Foundation
+import os.log
 
-final class NFCNDEFReaderSessionOneTag: NSObject, NFCNDEFReaderSessionDelegate {
+final class AsyncNFCNDEFReaderSession: NSObject, NFCNDEFReaderSessionDelegate {
   private var readerSession: NFCNDEFReaderSession?
   private var activeContinuation: CheckedContinuation<(NFCNDEFReaderSession, NFCNDEFTag), Error>?
 
@@ -17,8 +18,8 @@ final class NFCNDEFReaderSessionOneTag: NSObject, NFCNDEFReaderSessionDelegate {
     super.init()
   }
 
-  func begin() async throws -> (NFCNDEFReaderSession, NFCNDEFTag) {
-    print("OneNFCTag request!")
+  func begin(prompt: String = "Hold your iPhone near an NFC tag") async throws -> (NFCNDEFReaderSession, NFCNDEFTag) {
+    os_log("OneNFCTag request!")
 
     guard NFCTagReaderSession.readingAvailable else { throw TagErrors.ReadingUnavailable }
 
@@ -26,14 +27,22 @@ final class NFCNDEFReaderSessionOneTag: NSObject, NFCNDEFReaderSessionDelegate {
       activeContinuation = continuation
 
       readerSession = NFCNDEFReaderSession(delegate: self, queue: nil, invalidateAfterFirstRead: true)
-      readerSession!.alertMessage = "Hold your iPhone near an NFC tag"
+      readerSession!.alertMessage = prompt
       readerSession!.begin()
     }
   }
 
+//  func again() async throws -> (NFCNDEFReaderSession, NFCNDEFTag) {
+//    guard readerSession != nil else { throw TagErrors.ReadingUnavailable }
+//
+//    return try await withCheckedThrowingContinuation { continuation in
+//      activeContinuation = continuation
+//      readerSession!.restartPolling()
+//    }
+//  }
+
   func cancel() {
-    print("CombinedNFCNDEFReaderSessionSubscription cancelled! \(String(describing: readerSession))")
-    // readerSession?.alertMessage = "Cancelling..."
+    os_log("NFCNDEFReaderSessionOneTag cancelled!")
     readerSession?.invalidate()
     readerSession = nil
   }
@@ -47,13 +56,13 @@ final class NFCNDEFReaderSessionOneTag: NSObject, NFCNDEFReaderSessionDelegate {
          readerError.code != .readerSessionInvalidationErrorUserCanceled,
          readerError.code != .readerSessionInvalidationErrorSessionTimeout
       {
-        print("NFCNDEFReaderSession did invalidate with NFCReaderError! \(error)")
+        os_log("NFCNDEFReaderSessionOneTag did invalidate with NFCReaderError! \(readerError.localizedDescription)")
         activeContinuation?.resume(throwing: readerError)
       } else {
         activeContinuation?.resume(throwing: TagErrors.NoTagPresented)
       }
     } else {
-      print("NFCNDEFReaderSession did invalidate with error! \(error)")
+      os_log("NFCNDEFReaderSession did invalidate with error! \(error.localizedDescription)")
       activeContinuation?.resume(throwing: error)
     }
     activeContinuation = nil
@@ -63,7 +72,7 @@ final class NFCNDEFReaderSessionOneTag: NSObject, NFCNDEFReaderSessionDelegate {
   func readerSession(_: NFCNDEFReaderSession, didDetectNDEFs _: [NFCNDEFMessage]) {}
 
   func readerSession(_ session: NFCNDEFReaderSession, didDetect tags: [NFCNDEFTag]) {
-    print("readerSession(didDetect:) with \(tags.count)")
+    os_log("readerSession(didDetect:) with \(tags.count)")
     if tags.count > 1 {
       session.invalidate(errorMessage: "More than 1 tag was found. Please present only 1 tag.")
       return

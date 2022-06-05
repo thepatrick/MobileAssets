@@ -1,41 +1,17 @@
 //
-//  ScanTagsView.swift
+//  SetupTagsView.swift
 //  Assets
 //
 //  Created by Patrick Quinn-Graham on 5/6/2022.
 //  Copyright © 2022 Patrick Quinn-Graham. All rights reserved.
 //
 
-import CoreData
 import CoreNFC
+import os.log
 import SwiftUI
 
-struct ScannedTags: Identifiable {
-  let id = UUID()
-  let tagID: String
-  let object: RelatedObject
-
-  enum RelatedObject {
-    case container(container: Container)
-    case none
-  }
-
-  init(context: NSManagedObjectContext, tagID: String) {
-    self.tagID = tagID
-
-    if let container = try? Container.findByTagID(tagID: tagID, in: context) {
-      object = .container(container: container)
-    } else {
-      object = .none
-    }
-  }
-}
-
-// TODO: Make ScannedTags look to see if they are attached to an item or location, and if so link to that
-
-struct ScanTagsView: View {
-  @Environment(\.managedObjectContext) private var viewContext
-  @State var scannedTags: [ScannedTags] = []
+struct SetupTagsView: View {
+  @State var scannedTags: Int = 0
   @State var lastError: String?
 
   var body: some View {
@@ -52,20 +28,14 @@ struct ScanTagsView: View {
       }
 
       Section {
-        if scannedTags.isEmpty {
+        if scannedTags == 0 {
           Text("No Tags Scanned Yet").foregroundColor(.secondary)
-        }
-        ForEach(scannedTags.reversed()) { tag in
-          switch tag.object {
-          case let .container(container):
-            Text("Container: \(container.name ?? "(no name)")")
-          case .none:
-            Text("Tag: \(tag.tagID)")
-          }
+        } else {
+          Text("Setup \(scannedTags) tags")
         }
       }
     }
-    .navigationTitle("Scan Tags")
+    .navigationTitle("Setup Tags")
     .toolbar {
       ToolbarItem {
         AsyncButton {
@@ -85,9 +55,10 @@ struct ScanTagsView: View {
   func scanTag() async {
     var cancelled = false
     do {
-      let thing = try await AssetTags().verifyOneTag()
+      let thing = try await AssetTags().setupOneTag()
+      os_log("Added tag \(thing)")
       lastError = nil
-      scannedTags.append(ScannedTags(context: viewContext, tagID: thing))
+      scannedTags += 1
     } catch let error as NFCReaderError {
       lastError = error.localizedDescription
     } catch let error as TagErrors {
@@ -107,10 +78,10 @@ struct ScanTagsView: View {
   }
 }
 
-struct ScanTagsView_Previews: PreviewProvider {
+struct SetupTagsView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationView {
-      ScanTagsView()
+      SetupTagsView()
     }
   }
 }
