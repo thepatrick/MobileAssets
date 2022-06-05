@@ -7,8 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD852696284B6D4D003CF46F /* AddLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD852695284B6D4D003CF46F /* AddLocationView.swift */; };
+		CD852698284B7438003CF46F /* ContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD852697284B7438003CF46F /* ContainerViewModel.swift */; };
+		CD85269A284B767F003CF46F /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD852699284B767F003CF46F /* ContainerView.swift */; };
+		CD85269C284B896A003CF46F /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD85269B284B896A003CF46F /* AsyncButton.swift */; };
+		CD85269F284C6BEB003CF46F /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD85269E284C6BEB003CF46F /* MoreView.swift */; };
+		CD8526A1284C6EB5003CF46F /* ScanTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8526A0284C6EB5003CF46F /* ScanTagsView.swift */; };
+		CD8526A3284C78D7003CF46F /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8526A2284C78D7003CF46F /* Task.swift */; };
 		CDE8788D284650AC005CA5BF /* AssetsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE8788C284650AC005CA5BF /* AssetsApp.swift */; };
-		CDE8788F284650AC005CA5BF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE8788E284650AC005CA5BF /* ContentView.swift */; };
+		CDE8788F284650AC005CA5BF /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE8788E284650AC005CA5BF /* ItemListView.swift */; };
 		CDE87891284650AE005CA5BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDE87890284650AE005CA5BF /* Assets.xcassets */; };
 		CDE87894284650AE005CA5BF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDE87893284650AE005CA5BF /* Preview Assets.xcassets */; };
 		CDE87896284650AE005CA5BF /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE87895284650AE005CA5BF /* Persistence.swift */; };
@@ -16,6 +23,18 @@
 		CDE878A3284650AE005CA5BF /* AssetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE878A2284650AE005CA5BF /* AssetsTests.swift */; };
 		CDE878AD284650AE005CA5BF /* AssetsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE878AC284650AE005CA5BF /* AssetsUITests.swift */; };
 		CDE878AF284650AE005CA5BF /* AssetsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE878AE284650AE005CA5BF /* AssetsUITestsLaunchTests.swift */; };
+		CDE878C12848A70E005CA5BF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDE878C02848A70E005CA5BF /* CloudKit.framework */; };
+		CDE878C62848CE48005CA5BF /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE878C52848CE48005CA5BF /* AddItemView.swift */; };
+		CDE878C82848CF2B005CA5BF /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE878C72848CF2B005CA5BF /* ImagePicker.swift */; };
+		CDE878CB2848D55C005CA5BF /* SingleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE878CA2848D55C005CA5BF /* SingleItemView.swift */; };
+		CDE878CE284B3F08005CA5BF /* TagErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE878CD284B3F08005CA5BF /* TagErrors.swift */; };
+		CDE878D0284B40DC005CA5BF /* NFCNDEFTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE878CF284B40DC005CA5BF /* NFCNDEFTag.swift */; };
+		CDE878D2284B4113005CA5BF /* NFCNDEFPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE878D1284B4113005CA5BF /* NFCNDEFPayload.swift */; };
+		CDE878D4284B412E005CA5BF /* NFCNDEFReaderSessionOneTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE878D3284B412E005CA5BF /* NFCNDEFReaderSessionOneTag.swift */; };
+		CDE878D6284B4153005CA5BF /* ScannedNFCTagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE878D5284B4153005CA5BF /* ScannedNFCTagModel.swift */; };
+		CDE878D8284B4171005CA5BF /* TagReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE878D7284B4171005CA5BF /* TagReader.swift */; };
+		CDE878DB284B438C005CA5BF /* RootUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE878DA284B438C005CA5BF /* RootUIView.swift */; };
+		CDFA70A6284B49B500851147 /* LocationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFA70A5284B49B500851147 /* LocationListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,9 +55,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CD852695284B6D4D003CF46F /* AddLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationView.swift; sourceTree = "<group>"; };
+		CD852697284B7438003CF46F /* ContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewModel.swift; sourceTree = "<group>"; };
+		CD852699284B767F003CF46F /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
+		CD85269B284B896A003CF46F /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
+		CD85269E284C6BEB003CF46F /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
+		CD8526A0284C6EB5003CF46F /* ScanTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanTagsView.swift; sourceTree = "<group>"; };
+		CD8526A2284C78D7003CF46F /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		CDE87889284650AC005CA5BF /* Assets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDE8788C284650AC005CA5BF /* AssetsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsApp.swift; sourceTree = "<group>"; };
-		CDE8788E284650AC005CA5BF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		CDE8788E284650AC005CA5BF /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
 		CDE87890284650AE005CA5BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CDE87893284650AE005CA5BF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CDE87895284650AE005CA5BF /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -48,6 +74,21 @@
 		CDE878A8284650AE005CA5BF /* AssetsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AssetsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDE878AC284650AE005CA5BF /* AssetsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsUITests.swift; sourceTree = "<group>"; };
 		CDE878AE284650AE005CA5BF /* AssetsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CDE878BD28487E66005CA5BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		CDE878BE2848A704005CA5BF /* Assets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Assets.entitlements; sourceTree = "<group>"; };
+		CDE878C02848A70E005CA5BF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		CDE878C52848CE48005CA5BF /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
+		CDE878C72848CF2B005CA5BF /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		CDE878C92848CF5A005CA5BF /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		CDE878CA2848D55C005CA5BF /* SingleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleItemView.swift; sourceTree = "<group>"; };
+		CDE878CD284B3F08005CA5BF /* TagErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagErrors.swift; sourceTree = "<group>"; };
+		CDE878CF284B40DC005CA5BF /* NFCNDEFTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCNDEFTag.swift; sourceTree = "<group>"; };
+		CDE878D1284B4113005CA5BF /* NFCNDEFPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCNDEFPayload.swift; sourceTree = "<group>"; };
+		CDE878D3284B412E005CA5BF /* NFCNDEFReaderSessionOneTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCNDEFReaderSessionOneTag.swift; sourceTree = "<group>"; };
+		CDE878D5284B4153005CA5BF /* ScannedNFCTagModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannedNFCTagModel.swift; sourceTree = "<group>"; };
+		CDE878D7284B4171005CA5BF /* TagReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagReader.swift; sourceTree = "<group>"; };
+		CDE878DA284B438C005CA5BF /* RootUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootUIView.swift; sourceTree = "<group>"; };
+		CDFA70A5284B49B500851147 /* LocationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDE878C12848A70E005CA5BF /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +117,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CD85269D284C6BE2003CF46F /* More */ = {
+			isa = PBXGroup;
+			children = (
+				CD85269E284C6BEB003CF46F /* MoreView.swift */,
+				CD8526A0284C6EB5003CF46F /* ScanTagsView.swift */,
+			);
+			path = More;
+			sourceTree = "<group>";
+		};
 		CDE87880284650AC005CA5BF = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +133,7 @@
 				CDE878A1284650AE005CA5BF /* AssetsTests */,
 				CDE878AB284650AE005CA5BF /* AssetsUITests */,
 				CDE8788A284650AC005CA5BF /* Products */,
+				CDE878BF2848A70E005CA5BF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -98,12 +150,17 @@
 		CDE8788B284650AC005CA5BF /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				CDE878CC284B3EF7005CA5BF /* NFC */,
+				CDE878C22848CD62005CA5BF /* Views */,
+				CDE878BE2848A704005CA5BF /* Assets.entitlements */,
+				CDE878BD28487E66005CA5BF /* Info.plist */,
 				CDE8788C284650AC005CA5BF /* AssetsApp.swift */,
-				CDE8788E284650AC005CA5BF /* ContentView.swift */,
 				CDE87890284650AE005CA5BF /* Assets.xcassets */,
 				CDE87895284650AE005CA5BF /* Persistence.swift */,
 				CDE87897284650AE005CA5BF /* Assets.xcdatamodeld */,
 				CDE87892284650AE005CA5BF /* Preview Content */,
+				CDE878C92848CF5A005CA5BF /* LICENSE.md */,
+				CD8526A2284C78D7003CF46F /* Task.swift */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -131,6 +188,61 @@
 				CDE878AE284650AE005CA5BF /* AssetsUITestsLaunchTests.swift */,
 			);
 			path = AssetsUITests;
+			sourceTree = "<group>";
+		};
+		CDE878BF2848A70E005CA5BF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CDE878C02848A70E005CA5BF /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CDE878C22848CD62005CA5BF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CD85269D284C6BE2003CF46F /* More */,
+				CDFA70A4284B49A900851147 /* Locations */,
+				CDE878D9284B431B005CA5BF /* Items */,
+				CDE878C72848CF2B005CA5BF /* ImagePicker.swift */,
+				CDE878DA284B438C005CA5BF /* RootUIView.swift */,
+				CD85269B284B896A003CF46F /* AsyncButton.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CDE878CC284B3EF7005CA5BF /* NFC */ = {
+			isa = PBXGroup;
+			children = (
+				CDE878CD284B3F08005CA5BF /* TagErrors.swift */,
+				CDE878CF284B40DC005CA5BF /* NFCNDEFTag.swift */,
+				CDE878D1284B4113005CA5BF /* NFCNDEFPayload.swift */,
+				CDE878D3284B412E005CA5BF /* NFCNDEFReaderSessionOneTag.swift */,
+				CDE878D5284B4153005CA5BF /* ScannedNFCTagModel.swift */,
+				CDE878D7284B4171005CA5BF /* TagReader.swift */,
+			);
+			path = NFC;
+			sourceTree = "<group>";
+		};
+		CDE878D9284B431B005CA5BF /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				CDE8788E284650AC005CA5BF /* ItemListView.swift */,
+				CDE878C52848CE48005CA5BF /* AddItemView.swift */,
+				CDE878CA2848D55C005CA5BF /* SingleItemView.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
+		CDFA70A4284B49A900851147 /* Locations */ = {
+			isa = PBXGroup;
+			children = (
+				CDFA70A5284B49B500851147 /* LocationListView.swift */,
+				CD852695284B6D4D003CF46F /* AddLocationView.swift */,
+				CD852697284B7438003CF46F /* ContainerViewModel.swift */,
+				CD852699284B767F003CF46F /* ContainerView.swift */,
+			);
+			path = Locations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,6 +310,7 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
+				ORGANIZATIONNAME = "Patrick Quinn-Graham";
 				TargetAttributes = {
 					CDE87888284650AC005CA5BF = {
 						CreatedOnToolsVersion = 13.4;
@@ -263,10 +376,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD85269F284C6BEB003CF46F /* MoreView.swift in Sources */,
 				CDE87896284650AE005CA5BF /* Persistence.swift in Sources */,
-				CDE8788F284650AC005CA5BF /* ContentView.swift in Sources */,
+				CDE878D0284B40DC005CA5BF /* NFCNDEFTag.swift in Sources */,
+				CD85269A284B767F003CF46F /* ContainerView.swift in Sources */,
+				CD8526A3284C78D7003CF46F /* Task.swift in Sources */,
+				CDE878DB284B438C005CA5BF /* RootUIView.swift in Sources */,
+				CDE878D4284B412E005CA5BF /* NFCNDEFReaderSessionOneTag.swift in Sources */,
+				CD8526A1284C6EB5003CF46F /* ScanTagsView.swift in Sources */,
+				CDE8788F284650AC005CA5BF /* ItemListView.swift in Sources */,
 				CDE87899284650AE005CA5BF /* Assets.xcdatamodeld in Sources */,
+				CDFA70A6284B49B500851147 /* LocationListView.swift in Sources */,
+				CDE878CE284B3F08005CA5BF /* TagErrors.swift in Sources */,
+				CD852698284B7438003CF46F /* ContainerViewModel.swift in Sources */,
+				CDE878CB2848D55C005CA5BF /* SingleItemView.swift in Sources */,
+				CDE878D8284B4171005CA5BF /* TagReader.swift in Sources */,
+				CDE878D6284B4153005CA5BF /* ScannedNFCTagModel.swift in Sources */,
+				CDE878C82848CF2B005CA5BF /* ImagePicker.swift in Sources */,
+				CDE878D2284B4113005CA5BF /* NFCNDEFPayload.swift in Sources */,
+				CD852696284B6D4D003CF46F /* AddLocationView.swift in Sources */,
 				CDE8788D284650AC005CA5BF /* AssetsApp.swift in Sources */,
+				CD85269C284B896A003CF46F /* AsyncButton.swift in Sources */,
+				CDE878C62848CE48005CA5BF /* AddItemView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,11 +553,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Assets/Assets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Assets/Preview Content\"";
+				DEVELOPMENT_TEAM = WA4JA55S9R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Assets/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -450,11 +584,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Assets/Assets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Assets/Preview Content\"";
+				DEVELOPMENT_TEAM = WA4JA55S9R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Assets/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
