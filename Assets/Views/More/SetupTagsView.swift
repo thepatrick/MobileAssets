@@ -6,7 +6,9 @@
 //  Copyright © 2022 Patrick Quinn-Graham. All rights reserved.
 //
 
+#if canImport(CoreNFC)
 import CoreNFC
+#endif
 import os.log
 import SwiftUI
 

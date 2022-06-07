@@ -6,7 +6,9 @@
 //  Copyright © 2022 Patrick Quinn-Graham. All rights reserved.
 //
 
-import CoreNFC
+#if canImport(CoreNFC)
+  import CoreNFC
+#endif
 import Foundation
 import os.log
 

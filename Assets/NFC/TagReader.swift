@@ -6,10 +6,16 @@
 //  Copyright © 2019-2022 Patrick Quinn-Graham. All rights reserved.
 //
 
+#if canImport(CoreNFC)
 import CoreNFC
+#endif
+
 import Foundation
 import os.log
-import UIKit
+
+#if canImport(UIKit)
+  import UIKit
+#endif
 
 func generateTagIDURL(_ tagID: String) -> NFCNDEFPayload {
   NFCNDEFPayload.wellKnownTypeURIPayload(string: String(format: "https://%@/%@", "a.twopats.live", tagID))!
@@ -38,11 +44,19 @@ struct AssetTags {
 
     return tagID
   }
+  
+  func myDeviceType() -> String {
+    #if canImport(UIKit)
+      return UIDevice.current.localizedModel
+    #else
+      return "Mac"
+    #endif
+  }
 
   func setupOneTag() async throws -> String {
     os_log("Verify one tag....")
-
-    let (session, tag) = try await AsyncNFCNDEFReaderSession().begin(prompt: "Hold your \(UIDevice.current.localizedModel) near a new tag")
+    
+    let (session, tag) = try await AsyncNFCNDEFReaderSession().begin(prompt: "Hold your \(myDeviceType()) near a new tag")
     let tagID: String
 
     do {
