@@ -99,12 +99,12 @@ struct ContainerView: View {
           }
         } else {
           ForEach(container.containedBy, id: \.self) { history in
-            Button {
-              // Pop the contained item into our stack
-            } label: {
-              VStack(alignment: .leading) {
-                Text(history.containedIn?.wrappedName ?? "(unknown)").font(.headline)
-                Text(history.created?.formatted() ?? "(unknown)").font(.footnote).foregroundColor(.secondary)
+            if let c = history.containedIn {
+              NavigationLink(value: c) {
+                VStack(alignment: .leading) {
+                  Text(c.wrappedName).font(.headline)
+                  Text(history.created?.formatted() ?? "(unknown)").font(.footnote).foregroundColor(.secondary)
+                }
               }
             }
           }
@@ -114,12 +114,12 @@ struct ContainerView: View {
       Section("Contains") {
         if !container.containedItems.isEmpty {
           ForEach(container.containedItems, id: \.self) { history in
-            Button {
-              // Pop the contained item into our stack
-            } label: {
-              VStack(alignment: .leading) {
-                Text(history.item?.wrappedName ?? "(unknown)").font(.headline)
-                Text(history.created?.formatted() ?? "(unknown)").font(.footnote).foregroundColor(.secondary)
+            if let c = history.item {
+              NavigationLink(value: c) {
+                VStack(alignment: .leading) {
+                  Text(c.wrappedName).font(.headline)
+                  Text(history.created?.formatted() ?? "(unknown)").font(.footnote).foregroundColor(.secondary)
+                }
               }
             }
           }

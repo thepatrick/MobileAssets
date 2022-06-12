@@ -11,6 +11,8 @@
 		CD2B53DF2855A26B0060C4BD /* ContainerHistory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2B53DB2855A26B0060C4BD /* ContainerHistory+CoreDataProperties.swift */; };
 		CD2B53E02855A26B0060C4BD /* Container+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2B53DC2855A26B0060C4BD /* Container+CoreDataClass.swift */; };
 		CD2B53E12855A26B0060C4BD /* Container+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2B53DD2855A26B0060C4BD /* Container+CoreDataProperties.swift */; };
+		CD2B53E32855C2D50060C4BD /* SavedBits.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2B53E22855C2D50060C4BD /* SavedBits.swift */; };
+		CD2B53E52855C58D0060C4BD /* NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2B53E42855C58D0060C4BD /* NavigationModel.swift */; };
 		CD852696284B6D4D003CF46F /* AddContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD852695284B6D4D003CF46F /* AddContainerView.swift */; };
 		CD852698284B7438003CF46F /* ContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD852697284B7438003CF46F /* ContainerViewModel.swift */; };
 		CD85269A284B767F003CF46F /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD852699284B767F003CF46F /* ContainerView.swift */; };
@@ -60,6 +62,8 @@
 		CD2B53DB2855A26B0060C4BD /* ContainerHistory+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContainerHistory+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CD2B53DC2855A26B0060C4BD /* Container+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Container+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CD2B53DD2855A26B0060C4BD /* Container+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Container+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		CD2B53E22855C2D50060C4BD /* SavedBits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedBits.swift; sourceTree = "<group>"; };
+		CD2B53E42855C58D0060C4BD /* NavigationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationModel.swift; sourceTree = "<group>"; };
 		CD852695284B6D4D003CF46F /* AddContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContainerView.swift; sourceTree = "<group>"; };
 		CD852697284B7438003CF46F /* ContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewModel.swift; sourceTree = "<group>"; };
 		CD852699284B767F003CF46F /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
@@ -127,6 +131,7 @@
 				CD2B53DB2855A26B0060C4BD /* ContainerHistory+CoreDataProperties.swift */,
 				CD2B53DC2855A26B0060C4BD /* Container+CoreDataClass.swift */,
 				CD2B53DD2855A26B0060C4BD /* Container+CoreDataProperties.swift */,
+				CD2B53E42855C58D0060C4BD /* NavigationModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -154,6 +159,7 @@
 		CDE87880284650AC005CA5BF = {
 			isa = PBXGroup;
 			children = (
+				CD2B53E22855C2D50060C4BD /* SavedBits.swift */,
 				CDE8788B284650AC005CA5BF /* Assets */,
 				CDE878A1284650AE005CA5BF /* AssetsTests */,
 				CDE878AB284650AE005CA5BF /* AssetsUITests */,
@@ -410,8 +416,10 @@
 				CD2B53E12855A26B0060C4BD /* Container+CoreDataProperties.swift in Sources */,
 				CDFA70A6284B49B500851147 /* BrowseView.swift in Sources */,
 				CDE878CE284B3F08005CA5BF /* TagErrors.swift in Sources */,
+				CD2B53E32855C2D50060C4BD /* SavedBits.swift in Sources */,
 				CD852698284B7438003CF46F /* ContainerViewModel.swift in Sources */,
 				CDE878D8284B4171005CA5BF /* TagReader.swift in Sources */,
+				CD2B53E52855C58D0060C4BD /* NavigationModel.swift in Sources */,
 				CDE878C82848CF2B005CA5BF /* ImagePicker.swift in Sources */,
 				CD8526A5284C8482003CF46F /* SetupTagsView.swift in Sources */,
 				CD852696284B6D4D003CF46F /* AddContainerView.swift in Sources */,

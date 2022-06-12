@@ -8,9 +8,14 @@
 
 import CoreData
 import SwiftUI
+import os.log
 
 struct BrowseView: View {
   @Environment(\.managedObjectContext) private var viewContext
+
+//  @SceneStorage("experience") private var experience: Experience?
+  @SceneStorage("navigation") private var navigationData: Data?
+  @StateObject private var navigationModel = NavigationModel()
 
   @FetchRequest(
     sortDescriptors: [NSSortDescriptor(keyPath: \Container.name, ascending: true)],
@@ -19,30 +24,16 @@ struct BrowseView: View {
   private var containers: FetchedResults<Container>
 
   @State private var isShowingAddView = false
+  @State private var searchText = ""
+  
+  @State private var selection: Container?
 
   var body: some View {
-    NavigationView {
-      List {
+    NavigationSplitView(columnVisibility: $navigationModel.columnVisibility) {
+      List(selection: $selection) {
+        
         ForEach(containers) { container in
-          NavigationLink {
-            ContainerView(container: container)
-          } label: {
-//            if let image = item.photo {
-//              Image(uiImage: image)
-//                .resizable()
-//                .scaledToFill()
-//                .frame(width: 64, height: 64, alignment: .center)
-//                .clipped()
-//            } else {
-//              Image(systemName: "person.circle")
-//                .resizable()
-//                .aspectRatio(contentMode: .fit)
-//                .frame(width: 64, height: 64, alignment: .center)
-//                .foregroundColor(.gray)
-//            }
-
-            Text(container.wrappedName)
-          }
+          NavigationLink(container.wrappedName, value: container)
         }
         .onDelete(perform: deleteItems)
       }
@@ -57,16 +48,38 @@ struct BrowseView: View {
         }
       }
       .navigationTitle("Browse")
-      Text("Select an item")
-    }
-    .sheet(isPresented: $isShowingAddView) {
-      AddContainerView { name in
-        addContainer(name: name)
-        isShowingAddView = false
-      } onCancel: {
-        isShowingAddView = false
+    } detail: {
+      NavigationStack(path: $navigationModel.containerPath) {
+        if let container = selection {
+          ContainerView(container: container)
+        } else {
+          Text("Hello")
+        }
       }
+        .navigationDestination(for: Container.self) { container in
+          ContainerView(container: container)
+        }
     }
+      .sheet(isPresented: $isShowingAddView) {
+        AddContainerView { name in
+          addContainer(name: name)
+          isShowingAddView = false
+        } onCancel: {
+          isShowingAddView = false
+        }
+      }
+      .environmentObject(navigationModel)
+      .task {
+        navigationModel.managedObjectContext = viewContext
+        if let jsonData = navigationData {
+          navigationModel.jsonData = jsonData
+        }
+        for await _ in navigationModel.objectWillChangeSequence {
+          let jsonData = navigationModel.jsonData
+          os_log("JSON DATA: \(jsonData?.debugDescription ?? "Oh well")")
+          navigationData = jsonData
+        }
+      }
   }
 
   private func addContainer(name: String) {
