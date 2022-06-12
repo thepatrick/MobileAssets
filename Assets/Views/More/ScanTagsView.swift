@@ -60,7 +60,7 @@ struct ScanTagsView: View {
         ForEach(scannedTags.reversed()) { tag in
           switch tag.object {
           case let .container(container):
-            Text("Container: \(container.name ?? "(no name)")")
+            Text("Container: \(container.wrappedName)")
           case .none:
             Text("Tag: \(tag.tagID)")
           }

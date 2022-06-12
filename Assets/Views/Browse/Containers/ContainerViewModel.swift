@@ -8,27 +8,51 @@
 
 import CoreData
 #if canImport(CoreNFC)
-import CoreNFC
+  import CoreNFC
 #endif
+import Combine
 import Foundation
 import os.log
+
 
 @MainActor
 class ContainerViewModel: ObservableObject {
   @Published var name: String
   @Published var tagID: String?
+  
+  @Published var containedItems: [ContainerHistory] = []
 
   @Published var lastScanError: Error?
   @Published var scanning: Bool = false
 
   let container: Container
+  var cancellable: AnyCancellable?
 
   var canScanTags: Bool { NFCReaderSession.readingAvailable }
 
   init(container: Container) {
     self.container = container
-    name = container.name ?? ""
-    tagID = container.tagID
+    name = container.wrappedName
+
+    self.readFromContainer(container: container)
+    
+    cancellable = container.objectWillChange.sink {
+      self.readFromContainer(container: container)
+    }
+
+//    container.publisher(for: \.name).map { maybeName in
+//      maybeName ?? ""
+//    }.assign(to: \.name, on: self)
+//
+//    let history = ContainerHistory(context: container.managedObjectContext!)
+//    history.containedIn = self.container
+//    history.item = self.container
+  }
+
+  func readFromContainer(container: Container) {
+    self.name = container.wrappedName
+    self.tagID = container.tagID
+    self.containedItems = container.currentContainedItems
   }
 
   func addTag() async throws {
@@ -60,6 +84,21 @@ class ContainerViewModel: ObservableObject {
       return
     }
     try await AssetTags().verifyOneTagIs(tagID: tagID)
+  }
+  
+  func addToLocation() async throws {
+    do {
+      scanning = true
+      
+      let tagID = try await AssetTags().verifyOneTag()
+      
+      
+    } catch {
+      lastScanError = error
+    }
+    
+    scanning = false
+    // save()
   }
 
   func save() {

@@ -23,8 +23,8 @@ struct ContainerView: View {
   var body: some View {
     List {
       Section("Title") {
-        Text(container.name)
-          .navigationTitle(container.name)
+        Text(container.container.wrappedName)
+          .navigationTitle(container.container.wrappedName)
       }
       if let tagID = container.tagID {
         Section("Tag \(tagID)") {
@@ -35,7 +35,7 @@ struct ContainerView: View {
               VStack(alignment: .leading) {
                 Text("Check").font(.headline)
                 // TODO: Make this work
-//                Text("Last seen \(Date.now.formatted())").font(.footnote).foregroundColor(.red) // .foregroundColor(.secondary)
+                // Text("Last seen \(Date.now.formatted())").font(.footnote).foregroundColor(.red) // .foregroundColor(.secondary)
               }
 
               Spacer()
@@ -66,6 +66,33 @@ struct ContainerView: View {
             }) {
               Text("Scan Tag")
             }
+          }
+        }
+      }
+      
+      Section("Location") {
+        if container.containedItems.isEmpty {
+          if !container.canScanTags {
+            Text("NFC is not available").font(.footnote).foregroundColor(.secondary).disabled(true)
+          } else {
+            AsyncButton(action: {}) {
+              Text("Scan Location")
+            }
+          }
+        } else {
+          ForEach(container.containedItems, id: \.self) { history in
+            Button {
+              // Pop the contained item into our stack
+            } label: {
+              VStack(alignment: .leading) {
+                Text(history.containedIn?.wrappedName ?? "(unknown)").font(.headline)
+                Text(history.containedIn?.created?.formatted() ?? "(unknown)").font(.headline)
+              }
+            }
+          }
+          
+          Button("Remove All") {
+//            container.removeTag()
           }
         }
       }
@@ -147,6 +174,15 @@ struct ContainerView_Previews: PreviewProvider {
     let context = PersistenceController.preview.container.viewContext
     let container = Container(context: context)
     container.name = "Preview 123"
+    
+    let history = ContainerHistory(context: context)
+    history.item = container
+    history.containedIn = container
+    history.created = Date()
+    
+    // history.remove = Date()
+    
+    container.addToContents(history)
 
     return NavigationView { ContainerView(container: container).environment(\.managedObjectContext, context) }
   }

@@ -25,9 +25,7 @@ struct BrowseView: View {
       List {
         ForEach(containers) { container in
           NavigationLink {
-//            SingleItemView(id: container.objectID, in: viewContext)
             ContainerView(container: container)
-
           } label: {
 //            if let image = item.photo {
 //              Image(uiImage: image)
@@ -43,7 +41,7 @@ struct BrowseView: View {
 //                .foregroundColor(.gray)
 //            }
 
-            Text(container.name ?? "(untitled)")
+            Text(container.wrappedName)
           }
         }
         .onDelete(perform: deleteItems)
@@ -68,13 +66,6 @@ struct BrowseView: View {
       } onCancel: {
         isShowingAddView = false
       }
-
-//      AddItemView(onAdd: { name, image in
-//        isShowingAddView = false
-//        addItem(title: name, image: image)
-//      }) {
-//        isShowingAddView = false
-//      }
     }
   }
 

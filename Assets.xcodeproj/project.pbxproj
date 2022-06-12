@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CD1BF12E284C97AB00466565 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1BF12D284C97AB00466565 /* Tag.swift */; };
+		CD2B53DE2855A26B0060C4BD /* ContainerHistory+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2B53DA2855A26B0060C4BD /* ContainerHistory+CoreDataClass.swift */; };
+		CD2B53DF2855A26B0060C4BD /* ContainerHistory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2B53DB2855A26B0060C4BD /* ContainerHistory+CoreDataProperties.swift */; };
+		CD2B53E02855A26B0060C4BD /* Container+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2B53DC2855A26B0060C4BD /* Container+CoreDataClass.swift */; };
+		CD2B53E12855A26B0060C4BD /* Container+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2B53DD2855A26B0060C4BD /* Container+CoreDataProperties.swift */; };
 		CD852696284B6D4D003CF46F /* AddContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD852695284B6D4D003CF46F /* AddContainerView.swift */; };
 		CD852698284B7438003CF46F /* ContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD852697284B7438003CF46F /* ContainerViewModel.swift */; };
 		CD85269A284B767F003CF46F /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD852699284B767F003CF46F /* ContainerView.swift */; };
@@ -53,7 +56,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CD1BF12D284C97AB00466565 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		CD2B53DA2855A26B0060C4BD /* ContainerHistory+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContainerHistory+CoreDataClass.swift"; sourceTree = "<group>"; };
+		CD2B53DB2855A26B0060C4BD /* ContainerHistory+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContainerHistory+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		CD2B53DC2855A26B0060C4BD /* Container+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Container+CoreDataClass.swift"; sourceTree = "<group>"; };
+		CD2B53DD2855A26B0060C4BD /* Container+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Container+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CD852695284B6D4D003CF46F /* AddContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContainerView.swift; sourceTree = "<group>"; };
 		CD852697284B7438003CF46F /* ContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewModel.swift; sourceTree = "<group>"; };
 		CD852699284B767F003CF46F /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
@@ -117,7 +123,10 @@
 		CD1BF12C284C978F00466565 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				CD1BF12D284C97AB00466565 /* Tag.swift */,
+				CD2B53DA2855A26B0060C4BD /* ContainerHistory+CoreDataClass.swift */,
+				CD2B53DB2855A26B0060C4BD /* ContainerHistory+CoreDataProperties.swift */,
+				CD2B53DC2855A26B0060C4BD /* Container+CoreDataClass.swift */,
+				CD2B53DD2855A26B0060C4BD /* Container+CoreDataProperties.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -390,12 +399,15 @@
 				CD85269F284C6BEB003CF46F /* MoreView.swift in Sources */,
 				CDE87896284650AE005CA5BF /* Persistence.swift in Sources */,
 				CD85269A284B767F003CF46F /* ContainerView.swift in Sources */,
-				CD1BF12E284C97AB00466565 /* Tag.swift in Sources */,
+				CD2B53DF2855A26B0060C4BD /* ContainerHistory+CoreDataProperties.swift in Sources */,
+				CD2B53E02855A26B0060C4BD /* Container+CoreDataClass.swift in Sources */,
 				CD8526A3284C78D7003CF46F /* Task.swift in Sources */,
 				CDE878DB284B438C005CA5BF /* RootUIView.swift in Sources */,
 				CDE878D4284B412E005CA5BF /* AsyncNFCNDEFReaderSession.swift in Sources */,
 				CD8526A1284C6EB5003CF46F /* ScanTagsView.swift in Sources */,
+				CD2B53DE2855A26B0060C4BD /* ContainerHistory+CoreDataClass.swift in Sources */,
 				CDE87899284650AE005CA5BF /* Assets.xcdatamodeld in Sources */,
+				CD2B53E12855A26B0060C4BD /* Container+CoreDataProperties.swift in Sources */,
 				CDFA70A6284B49B500851147 /* BrowseView.swift in Sources */,
 				CDE878CE284B3F08005CA5BF /* TagErrors.swift in Sources */,
 				CD852698284B7438003CF46F /* ContainerViewModel.swift in Sources */,
