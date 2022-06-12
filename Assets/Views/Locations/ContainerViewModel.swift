@@ -7,7 +7,9 @@
 //
 
 import CoreData
+#if canImport(CoreNFC)
 import CoreNFC
+#endif
 import Foundation
 import os.log
 
