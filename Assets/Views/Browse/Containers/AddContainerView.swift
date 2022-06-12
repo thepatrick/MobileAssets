@@ -1,5 +1,5 @@
 //
-//  AddLocationView.swift
+//  AddContainerView.swift
 //  Assets
 //
 //  Created by Patrick Quinn-Graham on 4/6/2022.
@@ -8,7 +8,13 @@
 
 import SwiftUI
 
-struct AddLocationView: View {
+struct AddContainerView: View {
+  enum FocusField: Hashable {
+    case field
+  }
+
+  @FocusState private var focusedField: FocusField?
+
   @State private var name: String = ""
 
   /// Callback after user selects to add contact with given name and image.
@@ -19,10 +25,25 @@ struct AddLocationView: View {
 
   var body: some View {
     NavigationView {
-      List {
-        Section {
-          TextField("Name", text: $name)
+      Form {
+        Section(header: Text("Name")) {
+          
+          TextField(text: $name, prompt: Text("Required")) {
+            Text("Name")
+          }
             .textContentType(.name)
+            .focused($focusedField, equals: .field)
+            .onAppear {
+              self.focusedField = .field
+            }
+            .submitLabel(.done)
+            .onSubmit {
+              if name.isEmpty {
+                self.focusedField = .field
+              } else {
+                onAdd?(name)
+              }
+            }
         }
 
 //        Section("Tag") {
@@ -50,7 +71,9 @@ struct AddLocationView: View {
 //          Button("Remove Tag") {}.foregroundColor(.red)
 //        }
       }
-      .navigationTitle("Add Container")
+      .formStyle(.grouped)
+      .defaultFocus($focusedField, .field)
+      .navigationTitle("Add Something")
       .toolbar {
         ToolbarItem(placement: .cancellationAction) {
           Button("Cancel", action: { onCancel?() })
@@ -64,9 +87,9 @@ struct AddLocationView: View {
   }
 }
 
-struct AddLocationView_Previews: PreviewProvider {
+struct AddContainerView_Previews: PreviewProvider {
   static var previews: some View {
-    AddLocationView { _ in
+    AddContainerView { _ in
 
     } onCancel: {}
   }

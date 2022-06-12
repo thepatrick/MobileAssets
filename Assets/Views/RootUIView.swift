@@ -11,16 +11,10 @@ import SwiftUI
 struct RootUIView: View {
   var body: some View {
     TabView {
-      ItemListView()
-//        .badge(10)
+      BrowseView()
         .tabItem {
           Image(systemName: "tag.fill")
-          Text("Items")
-        }
-      LocationListView()
-        .tabItem {
-          Image(systemName: "bag.fill")
-          Text("Containers")
+          Text("Browse")
         }
       MoreView()
         .tabItem {

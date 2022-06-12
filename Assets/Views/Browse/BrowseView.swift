@@ -1,50 +1,49 @@
 //
-//  ItemListView.swift
+//  BrowseView.swift
 //  Assets
 //
-//  Created by Patrick Quinn-Graham on 31/5/2022.
+//  Created by Patrick Quinn-Graham on 4/6/2022.
 //  Copyright © 2022 Patrick Quinn-Graham. All rights reserved.
 //
 
 import CoreData
 import SwiftUI
 
-struct ItemListView: View {
+struct BrowseView: View {
   @Environment(\.managedObjectContext) private var viewContext
 
   @FetchRequest(
-    sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
+    sortDescriptors: [NSSortDescriptor(keyPath: \Container.name, ascending: true)],
     animation: .default
   )
-  private var items: FetchedResults<Item>
+  private var containers: FetchedResults<Container>
 
   @State private var isShowingAddView = false
 
   var body: some View {
     NavigationView {
       List {
-        ForEach(items) { item in
+        ForEach(containers) { container in
           NavigationLink {
-            SingleItemView(id: item.objectID, in: viewContext)
+//            SingleItemView(id: container.objectID, in: viewContext)
+            ContainerView(container: container)
 
-//            Text("Item \(item.objectID) at \(item.timestamp!, formatter: itemFormatter)")
           } label: {
-            if let image = item.photo {
-              Image(uiImage: image)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 64, height: 64, alignment: .center)
-                .clipped()
-            } else {
-              Image(systemName: "person.circle")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 64, height: 64, alignment: .center)
-                .foregroundColor(.gray)
-            }
+//            if let image = item.photo {
+//              Image(uiImage: image)
+//                .resizable()
+//                .scaledToFill()
+//                .frame(width: 64, height: 64, alignment: .center)
+//                .clipped()
+//            } else {
+//              Image(systemName: "person.circle")
+//                .resizable()
+//                .aspectRatio(contentMode: .fit)
+//                .frame(width: 64, height: 64, alignment: .center)
+//                .foregroundColor(.gray)
+//            }
 
-            Text(item.title ?? "(untitled)")
-//                        Text(item.timestamp!, formatter: itemFormatter)
+            Text(container.name ?? "(untitled)")
           }
         }
         .onDelete(perform: deleteItems)
@@ -59,25 +58,31 @@ struct ItemListView: View {
           }
         }
       }
-      .navigationTitle("Assets")
+      .navigationTitle("Browse")
       Text("Select an item")
     }
     .sheet(isPresented: $isShowingAddView) {
-      AddItemView(onAdd: { name, image in
+      AddContainerView { name in
+        addContainer(name: name)
         isShowingAddView = false
-        addItem(title: name, image: image)
-      }) {
+      } onCancel: {
         isShowingAddView = false
       }
+
+//      AddItemView(onAdd: { name, image in
+//        isShowingAddView = false
+//        addItem(title: name, image: image)
+//      }) {
+//        isShowingAddView = false
+//      }
     }
   }
 
-  private func addItem(title: String, image: UIImage?) {
+  private func addContainer(name: String) {
     withAnimation {
-      let newItem = Item(context: viewContext)
-      newItem.title = title
-      newItem.timestamp = Date()
-      newItem.photo = image
+      let newContainer = Container(context: viewContext)
+      newContainer.name = name
+      newContainer.created = Date()
 
       do {
         try viewContext.save()
@@ -92,7 +97,7 @@ struct ItemListView: View {
 
   private func deleteItems(offsets: IndexSet) {
     withAnimation {
-      offsets.map { items[$0] }.forEach(viewContext.delete)
+      offsets.map { containers[$0] }.forEach(viewContext.delete)
 
       do {
         try viewContext.save()
@@ -106,15 +111,15 @@ struct ItemListView: View {
   }
 }
 
-private let itemFormatter: DateFormatter = {
+private let containerFormatter: DateFormatter = {
   let formatter = DateFormatter()
   formatter.dateStyle = .short
   formatter.timeStyle = .medium
   return formatter
 }()
 
-struct ItemListView_Previews: PreviewProvider {
+struct BrowseView_Previews: PreviewProvider {
   static var previews: some View {
-    ItemListView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    BrowseView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
   }
 }
