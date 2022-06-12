@@ -74,4 +74,13 @@ extension Container {
       ($0.created ?? Date()) > ($1.created ?? Date())
     }
   }
+  
+  static func findByTagID(tagID: String, in context: NSManagedObjectContext) throws -> Container? {
+    let request = fetchRequest()
+    let predicate = NSPredicate(format: "tagID = %@", tagID)
+    request.predicate = predicate
+
+    let items = try context.fetch(request)
+    return items.first
+  }
 }
