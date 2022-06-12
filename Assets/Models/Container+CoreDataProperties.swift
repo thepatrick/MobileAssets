@@ -62,6 +62,18 @@ extension Container {
   public var wrappedName: String {
     name ?? "Unknown"
   }
+  
+  var currentlyContainedIn: [ContainerHistory] {
+    guard let containedBy = containedBy else {
+      return []
+    }
+    
+    return containedBy.filter { history in
+      history.created != nil && history.removed == nil
+    }.sorted {
+      ($0.created ?? Date()) > ($1.created ?? Date())
+    }
+  }
 
   var currentContainedItems: [ContainerHistory] {
     guard let contents = contents else {

@@ -20,6 +20,7 @@ class ContainerViewModel: ObservableObject {
   @Published var name: String
   @Published var tagID: String?
   
+  @Published var containedBy: [ContainerHistory] = []
   @Published var containedItems: [ContainerHistory] = []
 
   @Published var lastScanError: Error?
@@ -52,6 +53,8 @@ class ContainerViewModel: ObservableObject {
   func readFromContainer(container: Container) {
     self.name = container.wrappedName
     self.tagID = container.tagID
+
+    self.containedBy = container.currentlyContainedIn
     self.containedItems = container.currentContainedItems
   }
 
@@ -86,19 +89,58 @@ class ContainerViewModel: ObservableObject {
     try await AssetTags().verifyOneTagIs(tagID: tagID)
   }
   
-  func addToLocation() async throws {
+  func addContainedItem() async throws {
     do {
       scanning = true
       
       let tagID = try await AssetTags().verifyOneTag()
       
+      // TODO: need the MOC, don't do the ! :(
+      guard let item = try Container.findByTagID(tagID: tagID, in: container.managedObjectContext!) else {
+        throw TagErrors.TagNotAttached
+      }
+      
+      let newHistory = ContainerHistory(context: container.managedObjectContext!)
+      newHistory.created = Date()
+      newHistory.containedIn = self.container
+      newHistory.item = item
       
     } catch {
       lastScanError = error
     }
     
     scanning = false
-    // save()
+
+    save()
+  }
+  
+  func addToLocation() async throws {
+    do {
+      scanning = true
+      
+      let tagID = try await AssetTags().verifyOneTag()
+      
+      // TODO: need the MOC, don't do the ! :(
+      guard let location = try Container.findByTagID(tagID: tagID, in: container.managedObjectContext!) else {
+        throw TagErrors.TagNotAttached
+      }
+      
+      let newHistory = ContainerHistory(context: container.managedObjectContext!)
+      newHistory.created = Date()
+      newHistory.containedIn = location
+      newHistory.item = self.container
+      
+    } catch {
+      lastScanError = error
+    }
+    
+    scanning = false
+
+    save()
+  }
+  
+  func removeFromAllLocations() {
+    
   }
 
   func save() {

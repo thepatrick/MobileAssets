@@ -18,6 +18,7 @@ public enum TagErrors: LocalizedError, CaseIterable {
   case TagEmpty
   case TagAlreadySetup
   case InvalidCallingConvention
+  case TagNotAttached
 
   var localizedDescription: String {
     switch self {
@@ -30,6 +31,7 @@ public enum TagErrors: LocalizedError, CaseIterable {
     case .TagNotEmpty: return "Tag is not empty"
     case .TagAlreadySetup: return "Tag is already setup"
     case .InvalidCallingConvention: return "A closure was called with an invalid calling convention, probably (nil, nil)"
+    case .TagNotAttached: return "Tag is not associated with anything"
     }
   }
 }

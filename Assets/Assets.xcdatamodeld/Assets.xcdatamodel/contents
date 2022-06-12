@@ -4,14 +4,14 @@
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="tagID" optional="YES" attributeType="String"/>
-        <relationship name="containedBy" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ContainerHistory" inverseName="containedIn" inverseEntity="ContainerHistory"/>
-        <relationship name="contents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ContainerHistory" inverseName="item" inverseEntity="ContainerHistory"/>
+        <relationship name="containedBy" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ContainerHistory" inverseName="item" inverseEntity="ContainerHistory"/>
+        <relationship name="contents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ContainerHistory" inverseName="containedIn" inverseEntity="ContainerHistory"/>
     </entity>
     <entity name="ContainerHistory" representedClassName="ContainerHistory" syncable="YES">
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="removed" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="containedIn" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Container" inverseName="containedBy" inverseEntity="Container"/>
-        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Container" inverseName="contents" inverseEntity="Container"/>
+        <relationship name="containedIn" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Container" inverseName="contents" inverseEntity="Container"/>
+        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Container" inverseName="containedBy" inverseEntity="Container"/>
     </entity>
     <elements>
         <element name="Container" positionX="-63" positionY="9" width="128" height="104"/>

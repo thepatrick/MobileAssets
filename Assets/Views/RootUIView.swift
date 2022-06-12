@@ -7,19 +7,32 @@
 //
 
 import SwiftUI
+#if canImport(CoreNFC)
+  import CoreNFC
+#endif
 
 struct RootUIView: View {
   var body: some View {
-    TabView {
+    if NFCReaderSession.readingAvailable {
+      TabView {
+        BrowseView()
+          .tabItem {
+            Image(systemName: "tag.fill")
+            Text("Browse")
+          }
+
+        MoreView()
+          .tabItem {
+            Image(systemName: "ellipsis")
+            Text("More")
+          }
+      }
+
+    } else {
       BrowseView()
         .tabItem {
           Image(systemName: "tag.fill")
           Text("Browse")
-        }
-      MoreView()
-        .tabItem {
-          Image(systemName: "ellipsis")
-          Text("More")
         }
     }
   }
