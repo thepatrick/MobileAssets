@@ -16,6 +16,7 @@
 		CD8526A1284C6EB5003CF46F /* ScanTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8526A0284C6EB5003CF46F /* ScanTagsView.swift */; };
 		CD8526A3284C78D7003CF46F /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8526A2284C78D7003CF46F /* Task.swift */; };
 		CD8526A5284C8482003CF46F /* SetupTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8526A4284C8482003CF46F /* SetupTagsView.swift */; };
+		CDA91E8C284F35A500A21C10 /* CoreNFC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA91E8B284F35A500A21C10 /* CoreNFC.framework */; };
 		CDE8788D284650AC005CA5BF /* AssetsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE8788C284650AC005CA5BF /* AssetsApp.swift */; };
 		CDE8788F284650AC005CA5BF /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE8788E284650AC005CA5BF /* ItemListView.swift */; };
 		CDE87891284650AE005CA5BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDE87890284650AE005CA5BF /* Assets.xcassets */; };
@@ -63,6 +64,7 @@
 		CD8526A0284C6EB5003CF46F /* ScanTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanTagsView.swift; sourceTree = "<group>"; };
 		CD8526A2284C78D7003CF46F /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		CD8526A4284C8482003CF46F /* SetupTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupTagsView.swift; sourceTree = "<group>"; };
+		CDA91E8B284F35A500A21C10 /* CoreNFC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreNFC.framework; path = System/Library/Frameworks/CoreNFC.framework; sourceTree = SDKROOT; };
 		CDE87889284650AC005CA5BF /* Assets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDE8788C284650AC005CA5BF /* AssetsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsApp.swift; sourceTree = "<group>"; };
 		CDE8788E284650AC005CA5BF /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDE878C12848A70E005CA5BF /* CloudKit.framework in Frameworks */,
+				CDA91E8C284F35A500A21C10 /* CoreNFC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,6 +204,7 @@
 		CDE878BF2848A70E005CA5BF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CDA91E8B284F35A500A21C10 /* CoreNFC.framework */,
 				CDE878C02848A70E005CA5BF /* CloudKit.framework */,
 			);
 			name = Frameworks;
@@ -565,11 +569,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Assets/Info.plist;
+				INFOPLIST_KEY_NFCReaderUsageDescription = "To scan asset tags";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -596,11 +602,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Assets/Info.plist;
+				INFOPLIST_KEY_NFCReaderUsageDescription = "To scan asset tags";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
