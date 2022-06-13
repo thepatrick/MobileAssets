@@ -61,20 +61,16 @@ struct ContainerView: View {
         StatusRow(feature: "Has location", isOK: !container.containedBy.isEmpty)
       }
 
-      if container.tagID == nil {
+      if container.canScanTags, container.tagID == nil {
         Section("Tag") {
-          if !container.canScanTags {
-            Text("NFC is not available").font(.footnote).foregroundColor(.secondary).disabled(true)
-          } else {
-            AsyncButton(action: {
-              do {
-                try await self.container.addTag()
-              } catch {
-                print("Some error ocurred etc etc \(error)")
-              }
-            }) {
-              Text("Scan Tag")
+          AsyncButton(action: {
+            do {
+              try await self.container.addTag()
+            } catch {
+              print("Some error ocurred etc etc \(error)")
             }
+          }) {
+            Text("Scan Tag")
           }
         }
       }
