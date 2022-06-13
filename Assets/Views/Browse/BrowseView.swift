@@ -7,8 +7,8 @@
 //
 
 import CoreData
-import SwiftUI
 import os.log
+import SwiftUI
 
 struct BrowseView: View {
   @Environment(\.managedObjectContext) private var viewContext
@@ -25,13 +25,12 @@ struct BrowseView: View {
 
   @State private var isShowingAddView = false
   @State private var searchText = ""
-  
+
   @State private var selection: Container?
 
   var body: some View {
     NavigationSplitView(columnVisibility: $navigationModel.columnVisibility) {
       List(selection: $selection) {
-        
         ForEach(containers) { container in
           NavigationLink(container.wrappedName, value: container)
         }
@@ -56,30 +55,30 @@ struct BrowseView: View {
           Text("Hello")
         }
       }
-        .navigationDestination(for: Container.self) { container in
-          ContainerView(container: container)
-        }
+      .navigationDestination(for: Container.self) { container in
+        ContainerView(container: container)
+      }
     }
-      .sheet(isPresented: $isShowingAddView) {
-        AddContainerView { name in
-          addContainer(name: name)
-          isShowingAddView = false
-        } onCancel: {
-          isShowingAddView = false
-        }
+    .sheet(isPresented: $isShowingAddView) {
+      AddContainerView { name in
+        addContainer(name: name)
+        isShowingAddView = false
+      } onCancel: {
+        isShowingAddView = false
       }
-      .environmentObject(navigationModel)
-      .task {
-        navigationModel.managedObjectContext = viewContext
-        if let jsonData = navigationData {
-          navigationModel.jsonData = jsonData
-        }
-        for await _ in navigationModel.objectWillChangeSequence {
-          let jsonData = navigationModel.jsonData
-          os_log("JSON DATA: \(jsonData?.debugDescription ?? "Oh well")")
-          navigationData = jsonData
-        }
+    }
+    .environmentObject(navigationModel)
+    .task {
+      navigationModel.managedObjectContext = viewContext
+      if let jsonData = navigationData {
+        navigationModel.jsonData = jsonData
       }
+      for await _ in navigationModel.objectWillChangeSequence {
+        let jsonData = navigationModel.jsonData
+        os_log("JSON DATA: \(jsonData?.debugDescription ?? "Oh well")")
+        navigationData = jsonData
+      }
+    }
   }
 
   private func addContainer(name: String) {

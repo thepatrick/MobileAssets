@@ -7,7 +7,7 @@
 //
 
 #if canImport(CoreNFC)
-import CoreNFC
+  import CoreNFC
 #endif
 
 import Foundation
@@ -44,7 +44,7 @@ struct AssetTags {
 
     return tagID
   }
-  
+
   func myDeviceType() -> String {
     #if canImport(UIKit)
       return UIDevice.current.localizedModel
@@ -55,7 +55,7 @@ struct AssetTags {
 
   func setupOneTag() async throws -> String {
     os_log("Verify one tag....")
-    
+
     let (session, tag) = try await AsyncNFCNDEFReaderSession().begin(prompt: "Hold your \(myDeviceType()) near a new tag")
     let tagID: String
 

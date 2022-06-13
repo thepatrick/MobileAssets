@@ -11,7 +11,7 @@ import SwiftUI
 struct RelatedItemView: View {
   let item: Container
   let created: Date?
-  
+
   var body: some View {
     NavigationLink(value: item) {
       VStack(alignment: .leading) {

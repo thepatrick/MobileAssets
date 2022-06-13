@@ -22,7 +22,6 @@ import Foundation
 //                .foregroundColor(.gray)
 //            }
 
-
 //  var itemImage: some View {
 //    if let image = item.photo {
 //      return AnyView(Image(uiImage: image)

@@ -27,23 +27,22 @@ struct AddContainerView: View {
     NavigationView {
       Form {
         Section(header: Text("Name")) {
-          
           TextField(text: $name, prompt: Text("Required")) {
             Text("Name")
           }
-            .textContentType(.name)
-            .focused($focusedField, equals: .field)
-            .onAppear {
+          .textContentType(.name)
+          .focused($focusedField, equals: .field)
+          .onAppear {
+            self.focusedField = .field
+          }
+          .submitLabel(.done)
+          .onSubmit {
+            if name.isEmpty {
               self.focusedField = .field
+            } else {
+              onAdd?(name)
             }
-            .submitLabel(.done)
-            .onSubmit {
-              if name.isEmpty {
-                self.focusedField = .field
-              } else {
-                onAdd?(name)
-              }
-            }
+          }
         }
 
 //        Section("Tag") {

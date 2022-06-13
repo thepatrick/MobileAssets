@@ -26,7 +26,7 @@ final class NavigationModel: ObservableObject, Codable {
 
   private lazy var decoder = JSONDecoder()
   private lazy var encoder = JSONEncoder()
-  
+
   var managedObjectContext: NSManagedObjectContext?
 
   init(
@@ -47,8 +47,8 @@ final class NavigationModel: ObservableObject, Codable {
   var jsonData: Data? {
     get { try? encoder.encode(self) }
     set {
-      decoder.userInfo[CodingUserInfoKey.managedObjectContext] = self.managedObjectContext
-      
+      decoder.userInfo[CodingUserInfoKey.managedObjectContext] = managedObjectContext
+
       guard let data = newValue,
             let model = try? decoder.decode(Self.self, from: data)
       else { return }
@@ -67,7 +67,7 @@ final class NavigationModel: ObservableObject, Codable {
     guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext] as? NSManagedObjectContext else {
       throw DecoderConfigurationError.missingManagedObjectContext
     }
-    
+
     let container = try decoder.container(keyedBy: CodingKeys.self)
     let containerPathIds = try container.decode([URL].self, forKey: .containerPathIds)
     containerPath = containerPathIds.compactMap {

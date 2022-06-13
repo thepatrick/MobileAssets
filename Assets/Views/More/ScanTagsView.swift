@@ -8,7 +8,7 @@
 
 import CoreData
 #if canImport(CoreNFC)
-import CoreNFC
+  import CoreNFC
 #endif
 import SwiftUI
 
