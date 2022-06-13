@@ -77,9 +77,7 @@ struct ContainerView: View {
 
       Section("Location") {
         if container.containedBy.isEmpty {
-          if !container.canScanTags {
-            Text("NFC is not available").font(.footnote).foregroundColor(.secondary).disabled(true)
-          } else {
+          if container.canScanTags {
             AsyncButton(action: {
               do {
                 try await container.addToLocation()
@@ -90,6 +88,7 @@ struct ContainerView: View {
               Text("Scan Location")
             }
           }
+          Text("TODO: Allow adding by search").font(.footnote).foregroundColor(.secondary).disabled(true)
         } else {
           ForEach(container.containedBy, id: \.self) { history in
             if let c = history.containedIn {
@@ -108,9 +107,7 @@ struct ContainerView: View {
           }
         }
 
-        if !container.canScanTags {
-          Text("NFC is not available").font(.footnote).foregroundColor(.secondary).disabled(true)
-        } else {
+        if container.canScanTags {
           AsyncButton(action: {
             do {
               try await container.addContainedItem()
@@ -121,6 +118,7 @@ struct ContainerView: View {
             Text("Scan to add an item")
           }
         }
+        Text("TODO: Allow adding by search").font(.footnote).foregroundColor(.secondary).disabled(true)
       }
     }
     .toolbar {
