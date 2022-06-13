@@ -58,7 +58,7 @@ struct ContainerView: View {
 
         StatusRow(feature: "Serial number", isOK: false)
 
-        StatusRow(feature: "Has location", isOK: !container.containedBy.isEmpty)
+        StatusRow(feature: "Has location", isOK: container.hasLocation)
       }
 
       if container.canScanTags, container.tagID == nil {
@@ -76,7 +76,7 @@ struct ContainerView: View {
       }
 
       Section("Location") {
-        if container.containedBy.isEmpty {
+        if !container.hasLocation {
           if container.canScanTags {
             AsyncButton(action: {
               do {
@@ -168,8 +168,19 @@ struct ContainerView: View {
           }
 
           Section {
-            Button("Change Location") {}
-            Button("Remove from Location") {}
+            if !container.hasLocation {
+              AsyncButton(action: {
+                do {
+                  try await container.addToLocation()
+                } catch {
+                  os_log("Error? \(error)")
+                }
+              }) {
+                Text("Add Location")
+              }
+            } else {
+              Button("Remove from Location") {}
+            }
           }
 
           if container.canScanTags {

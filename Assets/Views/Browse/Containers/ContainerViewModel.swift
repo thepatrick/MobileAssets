@@ -30,6 +30,12 @@ class ContainerViewModel: ObservableObject {
   var cancellable: AnyCancellable?
 
   var canScanTags: Bool { NFCReaderSession.readingAvailable }
+  
+  var hasLocation: Bool {
+    guard let isEmpty = container.containedBy?.isEmpty else { return false }
+    
+    return !isEmpty
+  }
 
   init(container: Container) {
     self.container = container
@@ -40,14 +46,6 @@ class ContainerViewModel: ObservableObject {
     cancellable = container.objectWillChange.sink {
       self.readFromContainer(container: container)
     }
-
-//    container.publisher(for: \.name).map { maybeName in
-//      maybeName ?? ""
-//    }.assign(to: \.name, on: self)
-//
-//    let history = ContainerHistory(context: container.managedObjectContext!)
-//    history.containedIn = self.container
-//    history.item = self.container
   }
 
   func readFromContainer(container: Container) {
