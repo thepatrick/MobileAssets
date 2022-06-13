@@ -58,7 +58,7 @@ struct ContainerView: View {
 
         StatusRow(feature: "Serial number", isOK: false)
 
-        StatusRow(feature: "Has location", isOK: container.hasLocation)
+        StatusRow(feature: "Has location", isOK: container.currentLocation != nil)
       }
 
       if container.canScanTags, container.tagID == nil {
@@ -76,7 +76,9 @@ struct ContainerView: View {
       }
 
       Section("Location") {
-        if !container.hasLocation {
+        if let location = container.currentLocation {
+          RelatedItemView(item: location, created: container.currentLocationAdded)
+        } else {
           if container.canScanTags {
             AsyncButton(action: {
               do {
@@ -89,12 +91,6 @@ struct ContainerView: View {
             }
           }
           Text("TODO: Allow adding by search").font(.footnote).foregroundColor(.secondary).disabled(true)
-        } else {
-          ForEach(container.containedBy, id: \.self) { history in
-            if let c = history.containedIn {
-              RelatedItemView(item: c, created: history.created)
-            }
-          }
         }
       }
 
@@ -168,7 +164,11 @@ struct ContainerView: View {
           }
 
           Section {
-            if !container.hasLocation {
+            if let containedIn = container.currentLocation {
+              Button("Remove from \(containedIn.wrappedName)") {
+                container.removeFromCurrentLocation()
+              }
+            } else if container.canScanTags {
               AsyncButton(action: {
                 do {
                   try await container.addToLocation()
@@ -178,8 +178,6 @@ struct ContainerView: View {
               }) {
                 Text("Add Location")
               }
-            } else {
-              Button("Remove from Location") {}
             }
           }
 
@@ -218,10 +216,7 @@ struct ContainerView_Previews: PreviewProvider {
     let fakeItem = Container(context: context)
     fakeItem.name = "Item"
 
-    let containedHistory = ContainerHistory(context: context)
-    containedHistory.item = previewItem
-    containedHistory.containedIn = fakeLocation
-    containedHistory.created = Date()
+    previewItem.location = fakeLocation
 
     let containsHistory = ContainerHistory(context: context)
     containsHistory.item = fakeItem

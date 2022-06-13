@@ -7,10 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 @objc(Container)
-public class Container: NSManagedObject {
-
-}
+public class Container: NSManagedObject {}

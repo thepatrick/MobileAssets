@@ -9,6 +9,7 @@
 
 import CoreData
 import Foundation
+import os.log
 
 public extension Container {
   @nonobjc class func fetchRequest() -> NSFetchRequest<Container> {
@@ -22,7 +23,7 @@ public extension Container {
   @NSManaged var contents: Set<ContainerHistory>?
 }
 
-// MARK: Generated accessors for containedBy
+//// MARK: Generated accessors for containedBy
 
 public extension Container {
   @objc(addContainedByObject:)
@@ -62,17 +63,57 @@ extension Container {
   public var wrappedName: String {
     name ?? "Unknown"
   }
-  
-  var currentlyContainedIn: [ContainerHistory] {
-    guard let containedBy = containedBy else {
+
+  var previouslyContainedBy: [ContainerHistory] {
+    guard let containedBy else {
       return []
     }
-    
+
+    return containedBy.filter { history in
+      history.created != nil && history.removed != nil
+    }.sorted {
+      guard let firstDate = $0.created, let secondDate = $1.created else {
+        fatalError("currentlyContainedIn has a created that is nil, desptie the filter")
+      }
+
+      return firstDate > secondDate
+    }
+  }
+
+  private var currentlyContainedBy: [ContainerHistory] {
+    guard let containedBy else {
+      return []
+    }
+
     return containedBy.filter { history in
       history.created != nil && history.removed == nil
     }.sorted {
-      ($0.created ?? Date()) > ($1.created ?? Date())
+      guard let firstDate = $0.created, let secondDate = $1.created else {
+        fatalError("currentlyContainedIn has a created that is nil, desptie the filter")
+      }
+
+      return firstDate > secondDate
     }
+  }
+
+  var location: Container? {
+    get {
+      currentlyContainedBy.first?.containedIn
+    }
+
+    set {
+      for history in currentlyContainedBy {
+        history.markRemoved()
+      }
+
+      if let newValue {
+        addToContainedBy(ContainerHistory(context: managedObjectContext, containedIn: newValue, item: self))
+      }
+    }
+  }
+
+  var locationAdded: Date? {
+    currentlyContainedBy.first?.created
   }
 
   var currentContainedItems: [ContainerHistory] {
@@ -83,10 +124,14 @@ extension Container {
     return contents.filter { history in
       history.created != nil && history.removed == nil
     }.sorted {
-      ($0.created ?? Date()) > ($1.created ?? Date())
+      guard let firstDate = $0.created, let secondDate = $1.created else {
+        fatalError("currentContainedItems has a created that is nil, desptie the filter")
+      }
+
+      return firstDate > secondDate
     }
   }
-  
+
   static func findByTagID(tagID: String, in context: NSManagedObjectContext) throws -> Container? {
     let request = fetchRequest()
     let predicate = NSPredicate(format: "tagID = %@", tagID)

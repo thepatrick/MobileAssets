@@ -14,13 +14,14 @@ import Combine
 import Foundation
 import os.log
 
-
 @MainActor
 class ContainerViewModel: ObservableObject {
   @Published var name: String
   @Published var tagID: String?
-  
-  @Published var containedBy: [ContainerHistory] = []
+
+  @Published var currentLocation: Container?
+  @Published var currentLocationAdded: Date?
+
   @Published var containedItems: [ContainerHistory] = []
 
   @Published var lastScanError: Error?
@@ -30,30 +31,26 @@ class ContainerViewModel: ObservableObject {
   var cancellable: AnyCancellable?
 
   var canScanTags: Bool { NFCReaderSession.readingAvailable }
-  
-  var hasLocation: Bool {
-    guard let isEmpty = container.containedBy?.isEmpty else { return false }
-    
-    return !isEmpty
-  }
 
   init(container: Container) {
     self.container = container
     name = container.wrappedName
 
-    self.readFromContainer(container: container)
-    
+    readFromContainer(container: container)
+
     cancellable = container.objectWillChange.sink {
       self.readFromContainer(container: container)
     }
   }
 
   func readFromContainer(container: Container) {
-    self.name = container.wrappedName
-    self.tagID = container.tagID
+    name = container.wrappedName
+    tagID = container.tagID
 
-    self.containedBy = container.currentlyContainedIn
-    self.containedItems = container.currentContainedItems
+    currentLocation = container.location
+    currentLocationAdded = container.locationAdded
+
+    containedItems = container.currentContainedItems
   }
 
   func addTag() async throws {
@@ -86,59 +83,62 @@ class ContainerViewModel: ObservableObject {
     }
     try await AssetTags().verifyOneTagIs(tagID: tagID)
   }
-  
+
   func addContainedItem() async throws {
     do {
       scanning = true
-      
+
       let tagID = try await AssetTags().verifyOneTag()
-      
+
       // TODO: need the MOC, don't do the ! :(
       guard let item = try Container.findByTagID(tagID: tagID, in: container.managedObjectContext!) else {
         throw TagErrors.TagNotAttached
       }
-      
+
       let newHistory = ContainerHistory(context: container.managedObjectContext!)
       newHistory.created = Date()
-      newHistory.containedIn = self.container
+      newHistory.containedIn = container
       newHistory.item = item
-      
+
     } catch {
       lastScanError = error
     }
-    
+
     scanning = false
 
     save()
   }
-  
+
   func addToLocation() async throws {
     do {
       scanning = true
-      
+
       let tagID = try await AssetTags().verifyOneTag()
-      
+
+      guard let moc = container.managedObjectContext else {
+        fatalError("Container does not have a managed object context. This is... not valid.")
+      }
+
       // TODO: need the MOC, don't do the ! :(
-      guard let location = try Container.findByTagID(tagID: tagID, in: container.managedObjectContext!) else {
+      guard let location = try Container.findByTagID(tagID: tagID, in: moc) else {
         throw TagErrors.TagNotAttached
       }
-      
-      let newHistory = ContainerHistory(context: container.managedObjectContext!)
-      newHistory.created = Date()
-      newHistory.containedIn = location
-      newHistory.item = self.container
-      
+
+      container.location = location
+
     } catch {
       lastScanError = error
     }
-    
+
     scanning = false
 
     save()
   }
-  
-  func removeFromAllLocations() {
-    
+
+  func removeFromCurrentLocation() {
+    container.location = nil
+
+    save()
   }
 
   func save() {

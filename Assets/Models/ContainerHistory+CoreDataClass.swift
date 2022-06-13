@@ -7,10 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 @objc(ContainerHistory)
-public class ContainerHistory: NSManagedObject {
-
-}
+public class ContainerHistory: NSManagedObject {}
