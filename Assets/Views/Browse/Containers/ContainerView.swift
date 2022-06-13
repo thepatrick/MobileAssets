@@ -129,27 +129,41 @@ struct ContainerView: View {
       }
       ToolbarItem(placement: .navigationBarTrailing) {
         Menu {
-          Section {
-            if container.canScanTags {
-              Button {
-                Task { try? await container.verifyTag() }
-              } label: {
-                HStack(alignment: .center, spacing: 0) {
-                  VStack(alignment: .leading) {
-                    Text("Check Tag").font(.headline)
+          Section("Tag") {
+            if container.tagID == nil {
+              if container.canScanTags {
+                AsyncButton(action: {
+                  do {
+                    try await self.container.addTag()
+                  } catch {
+                    print("Some error ocurred etc etc \(error)")
                   }
-                  Spacer()
-                  Image(systemName: "sensor.tag.radiowaves.forward")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 36, height: 36, alignment: .center)
-                    .clipped()
+                }) {
+                  Text("Scan Tag")
                 }
               }
-            }
 
-            Button("Remove Tag") {
-              container.removeTag()
+            } else {
+              if container.canScanTags {
+                Button {
+                  Task { try? await container.verifyTag() }
+                } label: {
+                  HStack(alignment: .center, spacing: 0) {
+                    VStack(alignment: .leading) {
+                      Text("Check Tag").font(.headline)
+                    }
+                    Spacer()
+                    Image(systemName: "sensor.tag.radiowaves.forward")
+                      .resizable()
+                      .scaledToFill()
+                      .frame(width: 36, height: 36, alignment: .center)
+                      .clipped()
+                  }
+                }
+              }
+              Button("Remove Tag") {
+                container.removeTag()
+              }
             }
           }
 
