@@ -95,11 +95,7 @@ class ContainerViewModel: ObservableObject {
         throw TagErrors.TagNotAttached
       }
 
-      let newHistory = ContainerHistory(context: container.managedObjectContext!)
-      newHistory.created = Date()
-      newHistory.containedIn = container
-      newHistory.item = item
-
+      item.location = container
     } catch {
       lastScanError = error
     }
