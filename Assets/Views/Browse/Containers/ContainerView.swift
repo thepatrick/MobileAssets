@@ -11,18 +11,14 @@ import os.log
 import SwiftUI
 
 struct StatusRow: View {
-  
   var feature: String
-  
+
   var isOK: Bool
-  
+
   var body: some View {
     HStack(alignment: .center, spacing: 0) {
       VStack(alignment: .leading) {
-        
         Text(feature).foregroundColor(.secondary)
-        
-        // Text("Last seen \(Date.now.formatted())").font(.footnote).foregroundColor(.red) // .foregroundColor(.secondary)
       }
 
       Spacer()
@@ -35,7 +31,6 @@ struct StatusRow: View {
         .foregroundColor(isOK ? .green : .red)
     }
   }
-  
 }
 
 struct ContainerView: View {
@@ -55,12 +50,14 @@ struct ContainerView: View {
           .navigationTitle(container.container.wrappedName)
           .font(.headline)
       }
-      
+
       Section {
         StatusRow(feature: "Tag attached", isOK: container.tagID != nil)
-        
+
         StatusRow(feature: "Purchase data recorded", isOK: false)
-        
+
+        StatusRow(feature: "Serial number", isOK: false)
+
         StatusRow(feature: "Has location", isOK: !container.containedBy.isEmpty)
       }
 
@@ -100,12 +97,7 @@ struct ContainerView: View {
         } else {
           ForEach(container.containedBy, id: \.self) { history in
             if let c = history.containedIn {
-              NavigationLink(value: c) {
-                VStack(alignment: .leading) {
-                  Text(c.wrappedName).font(.headline)
-                  Text(history.created?.formatted() ?? "(unknown)").font(.footnote).foregroundColor(.secondary)
-                }
-              }
+              RelatedItemView(item: c, created: history.created)
             }
           }
         }
@@ -115,16 +107,11 @@ struct ContainerView: View {
         if !container.containedItems.isEmpty {
           ForEach(container.containedItems, id: \.self) { history in
             if let c = history.item {
-              NavigationLink(value: c) {
-                VStack(alignment: .leading) {
-                  Text(c.wrappedName).font(.headline)
-                  Text(history.created?.formatted() ?? "(unknown)").font(.footnote).foregroundColor(.secondary)
-                }
-              }
+              RelatedItemView(item: c, created: history.created)
             }
           }
         }
-        
+
         if !container.canScanTags {
           Text("NFC is not available").font(.footnote).foregroundColor(.secondary).disabled(true)
         } else {
@@ -139,64 +126,16 @@ struct ContainerView: View {
           }
         }
       }
-
-//      Section("Location") {
-//        Button {} label: {
-//          HStack(alignment: .center, spacing: 0) {
-//            VStack(alignment: .leading) {
-//              Text("Desk").font(.headline)
-//              Text("Set \(Date.now.formatted())").font(.footnote).foregroundColor(.secondary)
-//            }
-//
-//            Spacer()
-//
-//            Image(systemName: "info.circle")
-//              .resizable()
-//              .scaledToFill()
-//              .frame(width: 24, height: 24, alignment: .center)
-//              .clipped()
-//          }
-//        }
-//
-//        Button("Clear Location") {}.foregroundColor(.red)
-//        Button("Set New Location") {}.foregroundColor(.red)
-//      }
-//
-//      Section("Location") {
-//        Button("Set New Location") {}.foregroundColor(.red)
-//      }
-
-//      Section {
-//        if let image = item.photo {
-//          AnyView(Image(uiImage: image)
-//            .resizable()
-//            .scaledToFill()
-//            .frame(maxWidth: .infinity, maxHeight: .infinity)
-//            .clipped()
-//            .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
-//          )
-//        } else {
-//          AnyView(Image(systemName: "photo")
-//            .resizable()
-//            .scaledToFill()
-//            .frame(maxWidth: .infinity, maxHeight: .infinity)
-//            .clipped()
-//            .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
-//          )
-//        }
-//      }.scaleEffect(x: 1.1, y: 1.1, anchor: .center)
     }
     .toolbar {
       ToolbarItem(placement: .navigationBarTrailing) {
         Button("Edit", action: {
           os_log("Edit!")
-        }) // .disabled(!vm.isLoaded)
+        })
       }
       ToolbarItem(placement: .navigationBarTrailing) {
         Menu {
-          
           Section {
-            
             if container.canScanTags {
               Button {
                 Task { try? await container.verifyTag() }
@@ -214,17 +153,17 @@ struct ContainerView: View {
                 }
               }
             }
-            
+
             Button("Remove Tag") {
               container.removeTag()
             }
           }
-          
+
           Section {
             Button("Change Location") {}
             Button("Remove from Location") {}
           }
-          
+
           if container.canScanTags {
             Section {
               Button("Add to Contents") {
@@ -238,29 +177,13 @@ struct ContainerView: View {
               }
             }
           }
-          
+
         } label: {
           Image(systemName: "ellipsis.circle")
         }
       }
     }
   }
-
-//  var itemImage: some View {
-//    if let image = item.photo {
-//      return AnyView(Image(uiImage: image)
-//        .resizable()
-//        .scaledToFill()
-//        .frame(width: 64, height: 64, alignment: .center)
-//        .clipped())
-//    } else {
-//      return AnyView(Image(systemName: "photo")
-//        .resizable()
-//        .aspectRatio(contentMode: .fit)
-//        .frame(width: 64, height: 64, alignment: .center)
-//        .foregroundColor(.gray))
-//    }
-//  }
 }
 
 struct ContainerView_Previews: PreviewProvider {
@@ -286,6 +209,8 @@ struct ContainerView_Previews: PreviewProvider {
     containsHistory.containedIn = previewItem
     containsHistory.created = Date()
 
-    return NavigationView { ContainerView(container: previewItem).environment(\.managedObjectContext, context) }
+    return NavigationView {
+      ContainerView(container: previewItem).environment(\.managedObjectContext, context)
+    }
   }
 }
