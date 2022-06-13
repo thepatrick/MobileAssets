@@ -69,15 +69,17 @@ extension Container {
       return []
     }
 
-    return containedBy.filter { history in
-      history.created != nil && history.removed != nil
-    }.sorted {
-      guard let firstDate = $0.created, let secondDate = $1.created else {
-        fatalError("currentlyContainedIn has a created that is nil, desptie the filter")
+    return containedBy
+      .filter { history in
+        history.created != nil && history.removed != nil
       }
+      .sorted {
+        guard let firstDate = $0.created, let secondDate = $1.created else {
+          fatalError("currentlyContainedIn has a created that is nil, desptie the filter")
+        }
 
-      return firstDate > secondDate
-    }
+        return firstDate > secondDate
+      }
   }
 
   private var currentlyContainedBy: [ContainerHistory] {
@@ -85,15 +87,17 @@ extension Container {
       return []
     }
 
-    return containedBy.filter { history in
-      history.created != nil && history.removed == nil
-    }.sorted {
-      guard let firstDate = $0.created, let secondDate = $1.created else {
-        fatalError("currentlyContainedIn has a created that is nil, desptie the filter")
+    return containedBy
+      .filter { history in
+        history.created != nil && history.removed == nil
       }
+      .sorted {
+        guard let firstDate = $0.created, let secondDate = $1.created else {
+          fatalError("currentlyContainedIn has a created that is nil, desptie the filter")
+        }
 
-      return firstDate > secondDate
-    }
+        return firstDate > secondDate
+      }
   }
 
   var location: Container? {
@@ -121,15 +125,17 @@ extension Container {
       return []
     }
 
-    return contents.filter { history in
-      history.created != nil && history.removed == nil
-    }.sorted {
-      guard let firstDate = $0.created, let secondDate = $1.created else {
-        fatalError("currentContainedItems has a created that is nil, desptie the filter")
+    return contents
+      .filter { history in
+        history.created != nil && history.removed == nil
       }
+      .sorted {
+        guard let firstDate = $0.created, let secondDate = $1.created else {
+          fatalError("currentContainedItems has a created that is nil, desptie the filter")
+        }
 
-      return firstDate > secondDate
-    }
+        return firstDate > secondDate
+      }
   }
 
   static func findByTagID(tagID: String, in context: NSManagedObjectContext) throws -> Container? {
